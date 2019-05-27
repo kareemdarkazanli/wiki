@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router";
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import LinkifyContent from './LinkifyContent';
-import apis from '../../APIs';
+import APIs from '../../APIs';
 import './../Pages.less';
 
 class Article extends Component {
@@ -23,14 +24,11 @@ class Article extends Component {
     const {params={}} = match;
     const {pathParam=""} = params;
 
-    console.log(prevPathParam, pathParam, this.props)
     if(prevPathParam !== pathParam) {
-      apis.find({title: pathParam.toLowerCase()}).then((resp) => {
+      APIs.find({title: pathParam.toLowerCase()}).then((resp) => {
 
-
-        console.log('Article', resp.data);
         if(!resp.data) {
-          this.props.history.push("/")
+          history.push("/")
         }
         else {
           this.setState({
@@ -49,10 +47,9 @@ class Article extends Component {
     const {params={}} = match;
     const {pathParam=""} = params;
 
-    apis.find({title: pathParam.toLowerCase()}).then((resp) => {
+    APIs.find({title: pathParam.toLowerCase()}).then((resp) => {
 
 
-      console.log('Article', resp.data);
       if(!resp.data) {
         history.push("/")
       }
@@ -71,16 +68,18 @@ class Article extends Component {
   render() {
 
     const {article={}} = this.state;
+    const {titles:prevTitles={}} = this.props;
+
     const {title="", thumbnail="", content=""} = article;
     return (
       <div>
       {
         Object.keys(article).length ? (
           <div className="article">
-            <Link to="/">Home</Link>
             <img src={thumbnail.src} alt={thumbnail.alt} title={thumbnail.title} />
-            <p>{title}</p>
-            <p><LinkifyContent map={{bee: 1, queen: 1}} content={content}/></p>
+            <Link className="home-link" to="/">Back to home</Link>
+            <h1>{title[0].toUpperCase() + title.substring(1)}</h1>
+            <p><LinkifyContent map={prevTitles} content={content}/></p>
           </div>
         ) : null
       }
@@ -89,4 +88,11 @@ class Article extends Component {
   }
 }
 
-export default Article;
+const mapStateToProps = (state) => {
+
+  return {
+    titles: state.titles
+  }
+}
+
+export default connect(mapStateToProps)(Article);

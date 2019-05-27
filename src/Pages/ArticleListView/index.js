@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ArticleThumbnail from './ArticleThumbnail';
-import apis from '../../APIs';
+import APIs from '../../APIs';
 import './../Pages.less';
 
 class ArticleListView extends Component {
@@ -15,7 +15,7 @@ class ArticleListView extends Component {
 
   componentDidMount() {
 
-    apis.find({}).then((resp) => {
+    APIs.find({}).then((resp) => {
 
       this.setState({
         articles: resp.data
@@ -32,13 +32,15 @@ class ArticleListView extends Component {
     const {articles=[]} = this.state;
 
     return (
-      <div>
+      <div className="article-list-view">
+      <ul>
       {
         articles.map((article, index) => {
           const {title="", thumbnail={}} = article;
           return <ArticleThumbnail key={index} title={title} thumbnail={thumbnail} />
         })
       }
+      </ul>
       </div>
     )
   }

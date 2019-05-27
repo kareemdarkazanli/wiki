@@ -6,10 +6,10 @@ export default ({title="", thumbnail={}}) => {
   const {src, alt, title:imageTitle} = thumbnail;
 
   return (
-    <li>
+    <li className="article-thumbnail">
       <Link to={`/${title.toLowerCase()}`}>
         <img src={src} alt={alt} title={imageTitle} />
-        <p>{title}</p>
+        <p>{title[0].toUpperCase() + title.substring(1)}</p>
       </Link>
     </li>
 

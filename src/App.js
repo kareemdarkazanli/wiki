@@ -1,15 +1,30 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import Routes from "./Routes"
-import logo from './logo.svg';
+import { fetchTitles } from './actions';
 
-import './App.css';
+class App extends Component {
 
-function App() {
-  return (
-    <div className="App">
-      <Routes />
-    </div>
-  );
+
+  componentDidMount() {
+    this.props.fetchTitles();
+  }
+
+
+  render() {
+    return (
+      <div className="App">
+        <Routes />
+      </div>
+    );
+  }
+
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTitles: () => dispatch(fetchTitles())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);
