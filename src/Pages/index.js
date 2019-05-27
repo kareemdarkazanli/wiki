@@ -1,6 +1,7 @@
-import Home from './Home';
-
+import ArticleListView from './ArticleListView';
+import Article from './Article';
 
 export {
-  Home
+  ArticleListView,
+  Article
 }
